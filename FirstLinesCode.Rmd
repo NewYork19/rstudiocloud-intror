@@ -10,6 +10,38 @@ diameter = 12
 pi*(diameter/2)^2
 area = pi* (diameter/2)^2
 area
+
+diameter = 12
+12 -> diameter
+diameter <- 12
+'this was text'
+bloodtypes <- factor(c("A", "B", "O", "AB", "O-"))
+unclass(bloodtypes)
+```
+
+#Exercise 8.7 
+TRUE = 35
+35 -> TRUE
+TRUE <- 35
+Sys.time(35)```{r}
+Sys.timezone(35)
+
+"“Do you think this is a game?”, he said. “No, I think Jenga’s a game”, Archer responded."
+# convert to TRUE to an interger
+TRUE
+FALSE
+as.interger(TRUE)
+# as.interger(TRUE)
+
+class(Sys.time())
+class(Sys.timezone())
+
+'“Do you think this is a game?”, he said. “No, I think Jenga\’s a game”, Archer responded.'
+
+
+
+
+
 ```
 
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
