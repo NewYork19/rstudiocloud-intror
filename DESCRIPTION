@@ -14,12 +14,10 @@ Language: en
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
-Remotes: lockedata/starters,
-    ndphillips/FFTrees
+Remotes: ndphillips/FFTrees
 Imports: 
     tidyverse,
     tidymodels,
-    starters,
     FFTrees,
     DBI,
     odbc,
