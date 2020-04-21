@@ -1,0 +1,104 @@
+---
+title: "Data Piplines"
+output: html_notebook
+---
+
+Data pipelines use the tidyverse style of doing things
+```{r}
+library(tidyverse)
+```
+
+```{r}
+write.csv(iris, "iris.csv")
+
+```
+
+## Read
+```{r}
+iris_raw = read_csv("iris.csv" )
+```
+
+```{r}
+library(readxl)
+library(writexl)
+write_xlsx( iris,"iris.xlsx")
+read_excel(("iris.xlsx"))
+```
+
+
+```{r}
+library(haven)
+haven::write_dta(iris, "iris.dta")
+```
+
+## Exploratory analysis
+DataExplorer: :
+```{r}
+## Exploratory analysis
+DataExplorer::create_report(iris_raw, y="Species")
+```
+## Data Querying
+```{r}
+iris_raw %>% 
+  head(10)
+```
+```{r}
+iris_raw %>% 
+  head(10)
+
+iris_raw %>% 
+  tail(10)
+
+iris_raw %>% 
+  sample_n(10)
+
+iris_raw %>% 
+  sample_frac(0.10)
+
+head(iris_raw, 10) 
+tail(iris_raw, 10) 
+sample_n(iris_raw, 10)
+sample_frac(iris_raw, .10) 
+```
+
+Where
+```{r}
+iris_raw %>% 
+  filter(Species=="setosa", Sepal.Length >5.5)
+
+filter(iris_raw, Species=="setosa", Sepal.Length >5.5)
+```
+
+````{r}
+iris_raw %>% 
+  filter(Species=="setosa", Sepal.Length < mean(Sepal.Length)) %>% 
+  filter(Sepal.Width<3)
+```
+
+```{r}
+iris_raw %>% 
+  filter(Species=="setosa", Sepal.Length > 5.5), Sepal.Width < 3) 
+
+```
+
+Equal
+> /<
+Not equal
+
+TRUE
+FALSE
+
+```{r}
+TRUE & TRUE
+TRUE & FALSE
+
+# YELLOW & (BLUE OR RED)
+TRUE & (FALSE)
+TRUE & TRUE
+```
+
+```{r}
+iris_raw %>% 
+  filter_if(is.numeric, any_vars(. < 3))
+```
+
