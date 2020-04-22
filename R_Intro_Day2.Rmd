@@ -1,0 +1,151 @@
+---
+title: "Day 2 R_Intro"
+output: html_document
+---
+1.Shared / cloud coding environment
+2. Source control - track cahneges and why we changed things - Github is what we are using. Also Gitlab. Issues used similar to Trello - organise as project boards. The manage section can also be chnaged re: privacy settings.
+3. Reproducible research via literate programming
+4. R
+  + Packages
+  + Functions (tidyverse)
+  + Data Types
+  + Objects; Vectors; Matrices; Dataframes (mixed data)
+  + Tidyverse paradigm
+  + Logic Constructs
+
+#Filter Excercises
+#Write a filter that gets all action movies from the movies dataset via the ggplot2movies package
+#Write a filter that removes films lasting more than 6 hours from the movies dataset
+
+```{r}
+library(tidyverse)
+library(ggplot2movies)
+
+ggplot2movies::movies
+
+# filter to all action movies
+movies %>% 
+filter(Action == 1) 
+
+#remove films longer than 6 hours in minutes - Exclude
+movies %>% 
+  filter(length <= 6*60) %>%  # 6 hours in minutes
+  summarise(max (length))  
+  
+#no genres flagged
+movies %>% 
+  filter_at(vars(Action:Short), all_vars( . ==0)
+```
+
+##Filtering or Selecting Columns
+```{r}
+iris %>% 
+  select(Sepal.Length, Species)
+
+iris %>% 
+  select(Sepal.Length, -Species)
+
+iris %>% 
+  select(Sepal.Length:Petal.Width)
+
+iris %>% 
+  select(starts_with("Sepal"))
+#select used for column names
+
+iris %>% 
+  select_if(is.numeric) %>% 
+prcomp()
+
+#Exercise 21.5
+
+movies %>% 
+ rename(budget_if_known = budget) -> movies_cleaned
+
+movies %>% 
+  select(budget_if_known = budget, everything())
+
+
+iris %>% 
+  filter(Species=="setosa") %>% 
+  select(starts_with("Sepal"))
+```
+##Cahnging or adding columns
+```{r}
+iris %>% 
+  mutate(Sepal.Length - 0.1, 
+        Sepal.Area = Sepal.Length * Sepal.Width)
+```
+```{r}
+
+```
+##Afternoon session
+>knitr::purl("1stlinesofrcode.R")
+
+
+```{r setup, include=FALSE}
+iris %>% 
+  mutate(Sepal.Length = Sepal.Length -0.1, Sepal.Area = Sepal.Length * Sepal.Width, Species_trun = str_trunc(as.character(Species), 3), Diff.Sepal.Length = (Sepal.Length - mean(Sepal.Length))/mean(Sepal.Length))
+
+#Add a column to movies that says how much the length differs from the median
+movies %>% 
+  mutate(diff_length = length - median(length)) -> movies_diff
+```
+##Aggregating the data [Aggregation=Summary]
+- groups = group by
+- aggregation = summarise
+```{r}
+iris %>% 
+  group_by(Species) %>% 
+  summarise(count = n(),  avg.Sepal.Length = mean(Sepal.Length))
+
+iris %>% 
+   group_by(Species) %>% 
+  summarise_all((mean))
+
+iris %>% 
+  mutate(Diff.Sepal.Length = mean(Sepal.Length)) %>% 
+  group_by(Species) %>%  
+  mutate(Species.Diff.Sepal.Length = (Sepal.Length - mean(Sepal.Length))/mean(Sepal.Length)) 
+```
+##Exercise
+Find the min and max values for length in movies
+In a pipeline, find out what proportion of films are Action Comedies, Comedies and neither Action or Comedies
+
+```{r}
+#lengthe range
+movies %>% 
+  summarise(min(length) / max(length)/60)
+#proportion by genre
+movies %>% 
+  group_by(Action, Comedy) %>%   
+  summarise(n=n()) %>% 
+  ungroup() %>% 
+  mutate(per=n/sum(n))
+```
+
+
+
+
+
+```{r setup, include=FALSE}
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
